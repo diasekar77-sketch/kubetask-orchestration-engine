@@ -160,7 +160,7 @@ Import the following collection or create requests manually:
 
 ![task1_3](https://github.com/user-attachments/assets/ad85baa3-b9c1-45a5-97bc-51f93c4e15d4)
 
-![task1_2](https://github.com/user-attachments/assets/54b810b4-3105-4731-bf1a-6c16e99b4181)
+
 
 
 
