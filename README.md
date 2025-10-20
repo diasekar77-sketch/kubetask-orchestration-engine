@@ -153,15 +153,19 @@ Import the following collection or create requests manually:
 ## Screenshots
 
 ### API Testing with Postman
-![Postman API Testing](task_1.jpg)
+![Postman API Testing](task_1.jpg)![task1_2](https://github.com/user-attachments/assets/ed73f6a3-e00c-46ad-965b-85e45519e18f)
+
 *Testing the API endpoints using Postman with current date/time and candidate name visible*
+![task1_1](https://github.com/user-attachments/assets/a4ccd58e-612e-4868-8bda-3d0d1b3721ba)
 
+![task1_3](https://github.com/user-attachments/assets/ad85baa3-b9c1-45a5-97bc-51f93c4e15d4)
 
+![task1_2](https://github.com/user-attachments/assets/54b810b4-3105-4731-bf1a-6c16e99b4181)
 
 
 
 ### Application Logs
-![Application Logs](task1_1.jpg)
+
 *Spring Boot application running with startup logs and API request logs*
 
 ## Security Features
