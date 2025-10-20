@@ -195,23 +195,6 @@ src/
         └── SpringBootTest.java
 ```
 
-## Configuration
-The application is configured to use MongoDB on localhost:27017 with database name "taskdb". Configuration can be modified in `src/main/resources/application.properties`:
 
-```properties
-spring.data.mongodb.uri=mongodb://localhost:27017/taskdb
-spring.data.mongodb.database=taskdb
-server.port=8081
-```
 
-## Error Handling
-- **404 Not Found**: When requesting a non-existent task
-- **400 Bad Request**: When command validation fails or required fields are missing
-- **500 Internal Server Error**: When command execution fails
 
-## Author
-**Vivek Kumar** - Task API Implementation
-*Date: October 20, 2025*
-
-## License
-This project is part of a technical assessment for Kaiburr LLC.
