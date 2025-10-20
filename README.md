@@ -1,128 +1,109 @@
-# Task API - Java Spring Boot REST API
+# Task 1: Java Backend and REST API
+
+**Analyst:** Divya K S  
+**Email:** divya.sekar4428@gmail.com  
+**Date:** 2025-10-20
 
 ## Overview
-This is a Java Spring Boot application that provides a REST API for managing and executing shell command tasks. The application stores task data in MongoDB and includes security validation to prevent execution of dangerous commands.
+This is a Spring Boot REST API application for managing tasks that can be executed in Kubernetes pods. The application provides endpoints for CRUD operations on task objects and execution of shell commands.
 
 ## Features
 - **Task Management**: Create, read, update, and delete tasks
-- **Command Execution**: Execute shell commands safely with output capture
-- **Search Functionality**: Find tasks by name
-- **Security**: Command validation to prevent malicious operations
-- **MongoDB Integration**: Persistent storage with task execution history
+- **Task Execution**: Execute shell commands in Kubernetes pods
+- **MongoDB Integration**: Persistent storage for tasks and executions
+- **Input Validation**: Command validation to prevent malicious code execution
+- **RESTful API**: Clean REST endpoints with proper HTTP status codes
 
 ## API Endpoints
 
-### 1. Get All Tasks
-```bash
-GET /tasks
-```
-Returns all tasks in the database.
+### GET /api/tasks
+- **Description**: Retrieve all tasks or a specific task by ID
+- **Parameters**: 
+  - `id` (optional): Task ID to retrieve a specific task
+- **Response**: List of tasks or single task object
 
-### 2. Get Task by ID
-```bash
-GET /tasks?id={taskId}
-```
-Returns a specific task by its ID.
+### PUT /api/tasks
+- **Description**: Create or update a task
+- **Request Body**: Task object (JSON)
+- **Validation**: Command must not contain unsafe characters
 
-### 3. Create/Update Task
-```bash
-PUT /tasks
-Content-Type: application/json
+### DELETE /api/tasks/{id}
+- **Description**: Delete a task by ID
+- **Parameters**: `id` - Task ID to delete
 
-{
-  "id": "123",
-  "name": "Print Hello",
-  "owner": "John Smith",
-  "command": "echo Hello World!"
-}
-```
+### GET /api/tasks/search?name={name}
+- **Description**: Search tasks by name (case-insensitive)
+- **Parameters**: `name` - Search string
+- **Response**: List of matching tasks or 404 if none found
 
-### 4. Search Tasks by Name
-```bash
-GET /tasks/search?name={searchTerm}
-```
-Returns tasks whose names contain the search term.
-
-### 5. Delete Task
-```bash
-DELETE /tasks?id={taskId}
-```
-Deletes a task by its ID.
-
-### 6. Execute Task
-```bash
-PUT /tasks/{taskId}/execute
-```
-Executes the command associated with the task and stores the execution details.
+### PUT /api/tasks/{id}/execute
+- **Description**: Execute a task command in a Kubernetes pod
+- **Parameters**: `id` - Task ID to execute
+- **Response**: TaskExecution object with execution details
 
 ## Data Models
 
-### Task Object
+### Task
 ```json
 {
   "id": "123",
   "name": "Print Hello",
   "owner": "John Smith",
   "command": "echo Hello World!",
-  "taskExecutions": [
-    {
-      "startTime": "2023-04-21T15:51:42.276Z",
-      "endTime": "2023-04-21T15:51:43.276Z",
-      "output": "Hello World!"
-    }
-  ]
+  "taskExecutions": []
 }
 ```
 
-### TaskExecution Object
+### TaskExecution
 ```json
 {
-  "startTime": "2023-04-21T15:51:42.276Z",
-  "endTime": "2023-04-21T15:51:43.276Z",
+  "startTime": "2023-04-21 15:51:42.276Z",
+  "endTime": "2023-04-21 15:51:43.276Z",
   "output": "Hello World!"
 }
 ```
 
-## Security Features
-The application includes command validation to prevent execution of dangerous operations:
-- Blocks commands like `rm -rf`, `del /`, `format`, `shutdown`, etc.
-- Only allows safe commands like `echo`, `ls`, `cat`, `grep`, `head`, `tail`, `wc`, `sort`, `uniq`, `date`, `whoami`, `pwd`
-- Validates commands before both task creation and execution
-
 ## Prerequisites
-- Java 8 or higher
+- Java 17 or higher
 - Maven 3.6 or higher
-- MongoDB 4.0 or higher
+- MongoDB 4.4 or higher
+- Kubernetes cluster (for task execution)
 
 ## Installation and Setup
 
-### 1. Install MongoDB
-```bash
-# Using Homebrew (macOS)
-brew tap mongodb/brew
-brew install mongodb-community
-brew services start mongodb/brew/mongodb-community
-```
-
-### 2. Clone and Build
+### 1. Clone the Repository
 ```bash
 git clone <repository-url>
-cd task-api
-mvn clean compile
+cd task1-java-backend
 ```
 
-### 3. Run the Application
+### 2. Install Dependencies
+```bash
+mvn clean install
+```
+
+### 3. Configure MongoDB
+Update `src/main/resources/application.properties` with your MongoDB connection details:
+```properties
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=taskmanagement
+```
+
+### 4. Run the Application
 ```bash
 mvn spring-boot:run
 ```
 
-The application will start on port 8081.
+The application will start on `http://localhost:8080`
 
 ## Testing the API
 
-### 1. Create a Task
+### Using cURL
+
+#### Create a Task
 ```bash
-curl -X PUT http://localhost:8081/tasks \
+curl -X PUT http://localhost:8080/api/tasks \
   -H "Content-Type: application/json" \
   -d '{
     "id": "123",
@@ -132,69 +113,110 @@ curl -X PUT http://localhost:8081/tasks \
   }'
 ```
 
-### 2. Get All Tasks
+#### Get All Tasks
 ```bash
-curl -X GET http://localhost:8081/tasks
+curl http://localhost:8080/api/tasks
 ```
 
-### 3. Execute a Task
+#### Execute a Task
 ```bash
-curl -X PUT http://localhost:8081/tasks/123/execute
+curl -X PUT http://localhost:8080/api/tasks/123/execute
 ```
 
-### 4. Search Tasks
+#### Search Tasks
 ```bash
-curl -X GET "http://localhost:8081/tasks/search?name=Hello"
+curl "http://localhost:8080/api/tasks/search?name=Hello"
 ```
 
-### 5. Delete a Task
-```bash
-curl -X DELETE "http://localhost:8081/tasks?id=123"
-```
+### Using Postman
+Import the following collection or create requests manually:
+
+1. **Create Task** (PUT)
+   - URL: `http://localhost:8080/api/tasks`
+   - Body: JSON with task details
+
+2. **Get All Tasks** (GET)
+   - URL: `http://localhost:8080/api/tasks`
+
+3. **Get Task by ID** (GET)
+   - URL: `http://localhost:8080/api/tasks/{id}`
+
+4. **Execute Task** (PUT)
+   - URL: `http://localhost:8080/api/tasks/{id}/execute`
+
+5. **Search Tasks** (GET)
+   - URL: `http://localhost:8080/api/tasks/search?name={searchTerm}`
+
+6. **Delete Task** (DELETE)
+   - URL: `http://localhost:8080/api/tasks/{id}`
 
 ## Screenshots
 
-### Application Startup
-![Application Startup](screenshots/startup.png)
-*Application successfully started on port 8081*
+### API Testing with Postman
+![Postman API Testing](screenshots/postman-testing.png)
+*Testing the API endpoints using Postman with current date/time and candidate name visible*
 
 ### Task Creation
-![Task Creation](screenshots/create_task.png)
-*Creating a new task with curl command*
+![Task Creation](screenshots/task-creation.png)
+*Creating a new task with validation showing successful API response*
 
 ### Task Execution
-![Task Execution](screenshots/execute_task.png)
-*Executing a task and capturing output*
+![Task Execution](screenshots/task-execution.png)
+*Executing a task and viewing the output with execution history*
 
-### Security Validation
-![Security Validation](screenshots/security_validation.png)
-*Blocking dangerous commands for security*
+### MongoDB Data
+![MongoDB Data](screenshots/mongodb-data.png)
+*Viewing stored data in MongoDB with persistent storage*
 
-### Task Search
-![Task Search](screenshots/search_tasks.png)
-*Searching tasks by name*
+### Application Logs
+![Application Logs](screenshots/application-logs.png)
+*Spring Boot application running with startup logs and API request logs*
 
-## Project Structure
+## Security Features
+- **Command Validation**: Only allows safe characters in commands (alphanumeric, spaces, hyphens, underscores, dots, slashes)
+- **Input Sanitization**: Prevents injection of malicious shell commands
+- **MongoDB Security**: Uses parameterized queries to prevent NoSQL injection
+
+## Error Handling
+- **404 Not Found**: When task ID doesn't exist
+- **400 Bad Request**: When validation fails
+- **500 Internal Server Error**: When execution fails
+
+## Performance Considerations
+- **Connection Pooling**: MongoDB connection pooling for better performance
+- **Async Processing**: Task execution is handled asynchronously
+- **Resource Management**: Proper cleanup of Kubernetes resources
+
+## Monitoring and Logging
+- **Application Logs**: Detailed logging for debugging
+- **Execution Tracking**: Complete audit trail of task executions
+- **Performance Metrics**: Execution time tracking
+
+## Troubleshooting
+
+### Common Issues
+1. **MongoDB Connection Failed**
+   - Ensure MongoDB is running
+   - Check connection string in application.properties
+
+2. **Kubernetes Execution Failed**
+   - Ensure Kubernetes cluster is accessible
+   - Check RBAC permissions for pod creation
+
+3. **Command Validation Failed**
+   - Ensure command contains only allowed characters
+   - Check for special characters that might be blocked
+
+### Logs
+Check application logs for detailed error information:
+```bash
+tail -f logs/application.log
 ```
-src/
-├── main/
-│   ├── java/com/example/taskapi/task_api/
-│   │   ├── controller/
-│   │   │   ├── HelloController.java
-│   │   │   └── TaskController.java
-│   │   ├── model/
-│   │   │   ├── Task.java
-│   │   │   └── TaskExecution.java
-│   │   ├── repository/
-│   │   │   └── TaskRepository.java
-│   │   └── TaskApiApplication.java
-│   └── resources/
-│       └── application.properties
-└── test/
-    └── java/com/example/taskapi/task_api/
-        └── SpringBootTest.java
-```
 
-
-
+## Future Enhancements
+- **Authentication**: JWT-based authentication
+- **Authorization**: Role-based access control
+- **Rate Limiting**: API rate limiting
+- **Monitoring**: Prometheus metrics integration
+- **Caching**: Redis caching for better performance
 
