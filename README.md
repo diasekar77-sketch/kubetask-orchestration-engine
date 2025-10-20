@@ -1,7 +1,7 @@
 # Task 1: Java Backend and REST API
 
 **Analyst:** Divya K S  
-**Email:** divya.sekar4428@gmail.com  
+**Email:** divyasekar4428@gmail.com  
 **Date:** 2025-10-20
 
 ## Overview
