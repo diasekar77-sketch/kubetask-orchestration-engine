@@ -153,23 +153,15 @@ Import the following collection or create requests manually:
 ## Screenshots
 
 ### API Testing with Postman
-![Postman API Testing](screenshots/postman-testing.png)
+![Postman API Testing](task1.png)
 *Testing the API endpoints using Postman with current date/time and candidate name visible*
 
-### Task Creation
-![Task Creation](screenshots/task-creation.png)
-*Creating a new task with validation showing successful API response*
 
-### Task Execution
-![Task Execution](screenshots/task-execution.png)
-*Executing a task and viewing the output with execution history*
 
-### MongoDB Data
-![MongoDB Data](screenshots/mongodb-data.png)
-*Viewing stored data in MongoDB with persistent storage*
+
 
 ### Application Logs
-![Application Logs](screenshots/application-logs.png)
+![Application Logs](task1_1.png)
 *Spring Boot application running with startup logs and API request logs*
 
 ## Security Features
