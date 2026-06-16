@@ -1,11 +1,13 @@
-# Task 1: Java Backend and REST API
+# KubeTask: Cloud-Native Spring Boot Task Orchestrator
 
 **Analyst:** Divya K S  
 **Email:** divyasekar4428@gmail.com  
-**Date:** 2025-10-20
+**Architecture:** Spring Boot, MongoDB, Kubernetes (K8s) API Pod Execution  
 
-## Overview
-This is a Spring Boot REST API application for managing tasks that can be executed in Kubernetes pods. The application provides endpoints for CRUD operations on task objects and execution of shell commands.
+---
+
+## 📝 Project Overview
+This production-ready Spring Boot microservice functions as a specialized task management and remote execution runtime. The platform exposes a RESTful API layer capable of performing schema-validated CRUD operations on tasks, persisting execution state history in MongoDB, and safely orchestrating arbitrary shell executions inside transient Kubernetes pod containers.
 
 ## Features
 - **Task Management**: Create, read, update, and delete tasks
