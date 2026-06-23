@@ -205,11 +205,7 @@ Import the following collection or create requests manually:
    - Ensure command contains only allowed characters
    - Check for special characters that might be blocked
 
-### Logs
-Check application logs for detailed error information:
-```bash
-tail -f logs/application.log
-```
+
 
 ## Future Enhancements
 - **Authentication**: JWT-based authentication
